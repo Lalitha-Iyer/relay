@@ -32,6 +32,7 @@ pub async fn transform_fixture(fixture: &Fixture<'_>) -> Result<String, String> 
         let program = Program::from_definitions(Arc::clone(&schema), ir);
 
         let schema_config = SchemaConfig {
+            node_interface_id_field: intern!("_id"),
             non_node_id_fields: Some(NonNodeIdFieldsConfig {
                 allowed_id_types: {
                     let mut mappings = HashMap::new();
