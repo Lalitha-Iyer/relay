@@ -13,6 +13,20 @@ use generate_typescript::transform_fixture;
 use fixture_tests::test_fixture;
 
 #[tokio::test]
+async fn abstract_concrete_mixed_inline() {
+    let input = include_str!("generate_typescript/fixtures/abstract-concrete-mixed-inline.graphql");
+    let expected = include_str!("generate_typescript/fixtures/abstract-concrete-mixed-inline.expected");
+    test_fixture(transform_fixture, file!(), "abstract-concrete-mixed-inline.graphql", "generate_typescript/fixtures/abstract-concrete-mixed-inline.expected", input, expected).await;
+}
+
+#[tokio::test]
+async fn abstract_named_with_concrete_page() {
+    let input = include_str!("generate_typescript/fixtures/abstract-named-with-concrete-page.graphql");
+    let expected = include_str!("generate_typescript/fixtures/abstract-named-with-concrete-page.expected");
+    test_fixture(transform_fixture, file!(), "abstract-named-with-concrete-page.graphql", "generate_typescript/fixtures/abstract-named-with-concrete-page.expected", input, expected).await;
+}
+
+#[tokio::test]
 async fn aliased_fragment_raw_response_type() {
     let input = include_str!("generate_typescript/fixtures/aliased-fragment-raw-response-type.graphql");
     let expected = include_str!("generate_typescript/fixtures/aliased-fragment-raw-response-type.expected");

@@ -1,0 +1,23 @@
+# Abstract Named spread + concrete Page spread only (no ... on User).
+#
+# Expected:
+#   | { __typename: "User"; id: string; name?: string }
+#   | { __typename: "Page"; id: string; subscribeStatus?: string }
+#   | { __typename: "%other"; id: string }
+#   | { __typename: "%other"; id: string }
+#   | { __typename: "%other"; id: string }
+#
+# Actual (buggy):
+#   | { __typename: "Page"; id: string; name?: string; subscribeStatus: string }
+#   | { __typename: "%other" }
+#   — User arm missing; `name` from ... on Named leaks onto Page
+fragment AbstractNamedWithConcretePage on Actor {
+  __typename
+  id
+  ... on Named {
+    name
+  }
+  ... on Page {
+    subscribeStatus
+  }
+}

@@ -1,0 +1,26 @@
+# Mix abstract (Named — only User implements Named) with concrete User and Page spreads.
+#
+# Expected:
+#   | { __typename: "User"; id: string; name?: string; firstName?: string }
+#   | { __typename: "Page"; id: string; subscribeStatus?: string }
+#   | { __typename: "%other"; id: string }
+#   | { __typename: "%other"; id: string }
+#   | { __typename: "%other"; id: string }
+#
+# Actual (buggy) — `name` from ... on Named leaks onto the Page arm:
+#   | { __typename: "Page"; id: string; name?: string; subscribeStatus: string }
+#   | { __typename: "User"; id: string; name?: string; firstName: string }
+#   | { __typename: "%other" }
+fragment AbstractConcreteMixedInline on Actor {
+  __typename
+  id
+  ... on Named {
+    name
+  }
+  ... on User {
+    firstName
+  }
+  ... on Page {
+    subscribeStatus
+  }
+}
